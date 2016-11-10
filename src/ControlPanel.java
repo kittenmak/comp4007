@@ -13,8 +13,12 @@ public class ControlPanel{
 		
 
 	public ControlPanel(){
-		readKioskConfig();
-		readElevatorConfig();
+		readConfigs();
+	}
+	
+	private void readConfigs(){
+		readKioskConfig(mAliveKiosk);
+		readElevatorConfig(mAliveElevator);
 	}
 
 	private void writeKioskConfig(int KID, int setupFloor, String model){
@@ -26,12 +30,14 @@ public class ControlPanel{
 	}
 
 	private ArrayList<KioskItem> readKioskConfig(ArrayList<Integer> mAliveKiosk){
-		return ArrayList<KioskItem>;
+		ArrayList<KioskItem> allKiosk = new ArrayList<KioskItem>();
+		return allKiosk;
 	}
 
 
 	private ArrayList<ElevatorItem> readElevatorConfig(ArrayList<Integer> mAliveElevator){
-		return ArrayList<ElevatorItem>;
+		ArrayList<ElevatorItem> allElevator = new ArrayList<ElevatorItem>();
+		return allElevator;
 	}
 
 	public void onlineKiosk(int KID){
@@ -43,7 +49,7 @@ public class ControlPanel{
 	}
 
 	public int getNumOfAliveKiosk(){
-		reutrn mAliveKiosk.size();
+		return mAliveKiosk.size();
 	}
 	public int getNumOfAliveElevator(){
 		return mAliveElevator.size();
@@ -54,7 +60,7 @@ public class ControlPanel{
 	}
 
 	private void sendSignal(int EID, int destination){
-		connectElevator(mElevatorHost, EID)
+		connectElevator(mElevatorHost, EID);
 		
 	}
 
@@ -66,11 +72,11 @@ public class ControlPanel{
 
 	}
 
-	private connectElevator(String host, int EID){
+	private void connectElevator(String host, int EID){
 		int connectPort = mInitElevatorPort+EID;
 	}
 
-	private connectKiosk(String host, int KID){
+	private void connectKiosk(String host, int KID){
 		int connectPort = mInitKioskPort+KID;
 	}
 
