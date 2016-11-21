@@ -2,7 +2,8 @@ package comp4007;
 
 public class SharedConsts {
 
-    public static final String Path = "/Users/michaelleung/";
+    public static final String Path = "C:\\";
+//            "/Users/michaelleung/";
     //"C:\\";
     public static final String ConfigFileName = "config.properties";
     public static final String ConfigFilePath = Path + ConfigFileName;
