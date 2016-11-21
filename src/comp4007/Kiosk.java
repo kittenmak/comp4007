@@ -1,3 +1,8 @@
+package comp4007;
+
+import comp4007.item.KioskItem;
+import comp4007.item.RFIDItem;
+
 public class Kiosk{
 
 //	static int mInitPort = 20000;
@@ -11,6 +16,7 @@ public class Kiosk{
 	void enable(){
 		mItem.setKioskItem(true);
 	}
+
 	void disable(){
 		mItem.setKioskItem(false);
 	}

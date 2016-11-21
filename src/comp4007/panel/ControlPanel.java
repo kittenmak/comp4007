@@ -1,3 +1,8 @@
+package comp4007.panel;
+
+import comp4007.item.ElevatorItem;
+import comp4007.item.KioskItem;
+
 import java.util.ArrayList;
 
 public class ControlPanel{

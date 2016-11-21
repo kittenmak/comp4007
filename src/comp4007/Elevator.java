@@ -1,9 +1,12 @@
+package comp4007;
+
+import comp4007.item.ElevatorItem;
 
 public class Elevator{
 
-	
+
 	ElevatorItem mItem = new ElevatorItem();
-	
+
 	public Elevator(ElevatorItem item){
 		this.mItem = item;
 		enable();
@@ -16,18 +19,18 @@ public class Elevator{
 	void disable(){
 		mItem.setElevatorStatus(false);
 	}
-	
+
 	void portListener(){
 		//listen to control room's commands
 	}
-	
+
 	void sendSignal(ElevatorItem item){
 		//send singal to control room
 		item.getCurrentWeight();
 		item.getCurrentFloor();
 		item.isDoorStatus();
 		item.isElevatorStatus();
-		
+
 	}
 	void floorIncrement(){
 		int currentFloor = mItem.getCurrentFloor();

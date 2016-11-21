@@ -1,3 +1,5 @@
+package comp4007.item;
+
 public class KioskItem {
 	int KID;
 	String host;
