@@ -1,5 +1,12 @@
 package comp4007.other;
+/*
+ * ButtonPanel.java
+ *
 
+//The ButtonPanel class receives and handles button pressing events
+
+
+ */
 import javax.swing.*;
 import java.awt.*;
 import javax.swing.event.*;
