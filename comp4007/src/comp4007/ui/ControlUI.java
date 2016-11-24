@@ -13,7 +13,6 @@ public class ControlUI extends JFrame {
 
     private KioskUI kioskUI;
     private ElevatorUI elevatorUI;
-    public JButton[] mElevatorBtn;
 
     int mElevator = 0;
     int mFloor = 0;
@@ -22,7 +21,7 @@ public class ControlUI extends JFrame {
         readConfig();
 
         this.setTitle("ControlUI");
-        this.setSize(800, 600);
+        this.setSize(800, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.WIDTH) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.HEIGHT) / 2);
         this.getContentPane().setLayout(new BorderLayout(0, 0));

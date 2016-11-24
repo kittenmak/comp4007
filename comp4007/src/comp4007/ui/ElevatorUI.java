@@ -50,13 +50,17 @@ class ElevatorUI extends JPanel implements ActionListener
 //        mControlPanel = new Panel();
         mElevatorBtn = new JButton[elevator];
 //				("Elevator");
-        this.setLayout(new GridLayout(floor, 0,0 ,0));
+//        this.setLayout(new GridLayout(floor, 0,0 ,0));
+        this.setLayout(new BorderLayout());
+        Panel p = new Panel();
+        p.setLayout(new GridLayout(5, 5,0 ,0));
 
-//        for (int i = 0; i < elevator; i++) {
-//            mElevatorBtn[i] = new JButton(SharedConsts.Elevator + String.valueOf(i + 1));
-//            mElevatorBtn[i].addActionListener(this);
-//            this.add(mElevatorBtn[i]);
-//        }
+        for (int i = 0; i < elevator; i++) {
+            mElevatorBtn[i] = new JButton(SharedConsts.Elevator + String.valueOf(i + 1));
+            mElevatorBtn[i].addActionListener(this);
+            p.add(mElevatorBtn[i]);
+        }
+        this.add(p,BorderLayout.SOUTH);
 
         up = true;
         app = App;
@@ -85,24 +89,34 @@ class ElevatorUI extends JPanel implements ActionListener
         eheight = 15; //TODO
                 //app.control.mbut[0].getHeight();
         ewidth = eheight * 3 / 4;
-//        for(int i =0; i<mElevator; i++){
-        //TODO
-        g.fillRect(0, 0, this.getWidth(), eheight * mFloor); //set height
-//        g.setColor(Color.MAGENTA);
-//        for (int i = 1; i < mFloor; i++)
-//        {
-//            g.drawString(Integer.toString(i), this.getWidth(), eheight*100);
-//        }
-        g.setColor(Color.YELLOW);
 
+        //TODO
+        g.fillRect(0, 0, this.getWidth(), eheight * mFloor); //set height black rectangle
+
+        g.setColor(Color.MAGENTA);
+        for (int i = 0; i < mFloor; i++)
+        {
+            g.drawString(Integer.toString(i), 0, eheight* (mFloor-i));
+        }
+
+        g.setColor(Color.YELLOW);
         for (int i = 1; i < mFloor; i++)
         {
-            g.drawLine(0, eheight * i, this.getWidth(), eheight * i);
+            g.drawLine(0, eheight * i, this.getWidth(), eheight * i); // draw line
         }
+
         pathx = (this.getWidth() - ewidth) / 2;
-        g.fillRect(pathx, moving, ewidth, eheight);
-        g.setColor(Color.black);
-        g.drawLine(pathx + ewidth / 2, moving, pathx + ewidth / 2, moving + eheight);
+
+        //TODO pathx to x
+        int x = 50;
+        for(int i=0; i<mElevator; i++) {
+            g.setColor(Color.YELLOW);
+            g.fillRect(x, moving, ewidth, eheight); //elevetor rectangle
+            g.setColor(Color.BLACK);
+            g.drawLine(x + ewidth / 2, moving, x + ewidth / 2, moving + eheight); //elevator line
+            x = x + 50;
+        }
+
         //obtain geometric values of components for drawing the elevator area
         //clear the painting canvas
         //start the Timer if not started elsewhere
@@ -172,7 +186,7 @@ class ElevatorUI extends JPanel implements ActionListener
 //                app.state.setText("Stop at " + (N + 1));
             }
             stopint += 2;
-            if (stopint > 30)
+            if (stopint > mFloor)
             {
                 stopint = 0;
                 stop = false;

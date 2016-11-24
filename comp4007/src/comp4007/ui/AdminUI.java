@@ -42,7 +42,7 @@ public class AdminUI extends JFrame implements ActionListener{
         // set frame properties
         AdminUI f = new AdminUI();
         f.setTitle("AdminUI");
-        f.setBounds(200,200,800,600); //(x, y, width, height)
+        f.setBounds(200,200,400,300); //(x, y, width, height)
         f.setVisible(true);
 
         // set image as the icon
