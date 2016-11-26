@@ -2,7 +2,10 @@ package comp4007.panel;
 
 import comp4007.SharedConsts;
 import comp4007.item.RFIDItem;
+import comp4007.ui.AdminUI;
+import comp4007.ui.ControlUI;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,10 +16,17 @@ import java.util.Properties;
 public class AdminPanel {
 
 	public AdminPanel() {
+		startUI();
+	}
+
+	private void startUI(){
+		AdminUI f = new AdminUI();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
 	}
 
 	//TODO to private (create adapter?)
-	public void createRFID(RFIDItem item){
+	public static void createRFID(RFIDItem item){
 		Properties prop = new Properties();
 		OutputStream output = null;
 
@@ -53,7 +63,7 @@ public class AdminPanel {
 		
 	}
 	
-	public void deleteRFID(RFIDItem item){
+	public static void deleteRFID(RFIDItem item){
 		File file = new File(SharedConsts.RFIDFilePath);
 		if(file.exists()){
 			file.delete();

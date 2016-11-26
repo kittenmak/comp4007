@@ -1,14 +1,29 @@
 package comp4007.panel;
 
+import comp4007.simulator.Kiosk;
+import comp4007.SharedConsts;
+import comp4007.simulator.Elevator;
 import comp4007.item.ElevatorItem;
 import comp4007.item.KioskItem;
+import comp4007.ui.ControlUI;
 
+import javax.swing.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class ControlPanel{
 
 		ArrayList<Integer> mAliveKiosk = new ArrayList<Integer>();
-		ArrayList<Integer> mAliveElevator = new ArrayList<Integer>();
+		public static ArrayList<Integer> mAliveElevator = new ArrayList<Integer>();
+
+		int mElevator = 0;
+		int mFloor = 0;
+
 		static int mInitKioskPort = 20000;
 		static String mKioskHost = "127.0.0.1";
 		static int mInitElevatorPort = 25000;
@@ -17,10 +32,79 @@ public class ControlPanel{
 		double idleTimer = 30;
 		
 
-	public ControlPanel(){
-		readConfigs();
+	public ControlPanel() throws IOException, InterruptedException {
+		readConfig();
+		startUI();
+		startServer();
+//		startElevator();
+//		startKiosk();
+//		readConfigs();
 	}
-	
+
+	private void readConfig() {
+		Properties prop = new Properties();
+		InputStream input = null;
+
+		try {
+
+			input = new FileInputStream(SharedConsts.ConfigFilePath);
+
+			// load a properties file
+			prop.load(input);
+
+			// get the property value and print it out
+			mElevator = Integer.valueOf(prop.getProperty(SharedConsts.Elevator));
+			mFloor = Integer.valueOf(prop.getProperty(SharedConsts.Floor));
+
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			if (input != null) {
+				try {
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private void startServer() throws IOException {
+		ServerSocket serverSocket = new ServerSocket(SharedConsts.ServerPort);
+
+		System.out.println("Listening to TCP port# " + serverSocket.getLocalPort());
+
+		Socket clientSocket = null;
+
+
+		while (true) {
+			clientSocket = serverSocket.accept();
+			new MyThread(clientSocket).start();
+		}
+	}
+
+	private void startUI(){
+		ControlUI f = new ControlUI(mElevator, mFloor);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+
+//	private void startElevator() throws IOException, InterruptedException {
+//		for(int i = 0; i<mElevator; i++) {
+//			ElevatorItem item = new ElevatorItem();
+//			item.setEID(i);
+//			Elevator elevator = new Elevator(item);
+//		}
+//	}
+//
+//	private void startKiosk() throws IOException, InterruptedException {
+//		for(int i=0; i<mFloor; i++) {
+//			KioskItem item = new KioskItem();
+//			item.setKID(i);
+//			Kiosk kiosk = new Kiosk(item);
+//		}
+//	}
+
 	private void readConfigs(){
 		readKioskConfig(mAliveKiosk);
 		readElevatorConfig(mAliveElevator);
@@ -49,7 +133,7 @@ public class ControlPanel{
 		mAliveKiosk.add(KID);
 	}
 
-	public void onlineElevator(int EID){
+	public static void onlineElevator(int EID){
 		mAliveElevator.add(EID);
 	}
 
@@ -85,7 +169,4 @@ public class ControlPanel{
 		int connectPort = mInitKioskPort+KID;
 	}
 
-
-
-	
 }

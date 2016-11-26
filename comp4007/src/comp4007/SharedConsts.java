@@ -2,8 +2,14 @@ package comp4007;
 
 public class SharedConsts {
 
-    public static final String Path = "C:\\";
-    // "/Users/michaelleung/";
+    public static final String Path = "/Users/michaelleung/";
+    //"C:\\";
+
+    public static final String Key = "F@$631%5D1^&064=";
+
+    public static final String ServerAddress = "localhost";
+    public static final int ServerPort = 8999;
+
     public static final String ConfigFileName = "config.properties";
     public static final String ConfigFilePath = Path + ConfigFileName;
     public static final String RFIDFileName = "RFID.properties";

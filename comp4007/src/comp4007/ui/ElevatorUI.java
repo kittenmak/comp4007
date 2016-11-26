@@ -1,16 +1,12 @@
 package comp4007.ui;
 
 import comp4007.SharedConsts;
+import comp4007.panel.ControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 /**
  * Created by michaelleung on 22/11/2016.
  */
@@ -19,11 +15,13 @@ import java.util.Properties;
 class ElevatorUI extends JPanel implements ActionListener
 {
     public JButton[] mElevatorBtn;
+    public boolean mBoolStop[];
+    public JLabel mStateLabel; // display the state of the elevator
+
     private int mFloor;
     private int mElevator;
 
     //Declaration of variables
-    private ControlUI app; //the Elevator Simulation frame
     private boolean up; // the elevator is moving up or down
     private int ewidth;  // Elevator width
     private int eheight; // Elevator height
@@ -42,39 +40,50 @@ class ElevatorUI extends JPanel implements ActionListener
     }
 
     //constructor
-    public ElevatorUI(ControlUI App, int elevator, int floor)
+    public ElevatorUI(int elevator, int floor)
     {
         mFloor = floor;
         mElevator = elevator;
 
-//        mControlPanel = new Panel();
         mElevatorBtn = new JButton[elevator];
+        mBoolStop = new boolean[elevator];
+
 //				("Elevator");
 //        this.setLayout(new GridLayout(floor, 0,0 ,0));
         this.setLayout(new BorderLayout());
         Panel p = new Panel();
-        p.setLayout(new GridLayout(5, 5,0 ,0));
+        p.setLayout(new GridLayout(1, mElevator,0 ,0));
 
         for (int i = 0; i < elevator; i++) {
             mElevatorBtn[i] = new JButton(SharedConsts.Elevator + String.valueOf(i + 1));
+            mElevatorBtn[i].setBackground(java.awt.Color.GREEN);
             mElevatorBtn[i].addActionListener(this);
             p.add(mElevatorBtn[i]);
+            mBoolStop[i] = true;
         }
         this.add(p,BorderLayout.SOUTH);
 
+        //state label
+        mStateLabel = new JLabel();
+        mStateLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        mStateLabel.setText("Moving up");
+        mStateLabel.setForeground(Color.white);
+        this.add(mStateLabel, BorderLayout.EAST);
+        this.setVisible(true);
+
         up = true;
-        app = App;
         stop = false;
         stopint = 0;
-        eheight = 15; //TODO
-//                app.control.mbut[0].getHeight();
+        eheight = ( Toolkit.getDefaultToolkit().getScreenSize().height - 300 )/mFloor;
+//                15; //TODO
+//                controlUI.control.mbut[0].getHeight();
         moving = (mFloor-1) * eheight;
-        //  this.setBounds(app.control.mbut[0].WIDTH,app.control.mbut[0].getLocation().y, app.WIDTH-app.control.mbut[0].WIDTH, eheight*8);
+        //  this.setBounds(controlUI.control.mbut[0].WIDTH,controlUI.control.mbut[0].getLocation().y, controlUI.WIDTH-controlUI.control.mbut[0].WIDTH, eheight*8);
 
         ewidth = eheight * 3 / 4;
         pathx = (this.getWidth() - ewidth) / 2;
         pathy = this.getHeight() - eheight;
-        tm = new Timer(10, this);        //+ lisnner by timer
+        tm = new Timer(40, this);        //+ lisnner by timer
         tm.start();
 
         //necessary initialization
@@ -84,10 +93,11 @@ class ElevatorUI extends JPanel implements ActionListener
     public void paintComponent(Graphics g)
     {
         //  System.out.println(" Paint me!");
-        //  System.out.printf("\nBuuton %d h=%d ",app.control.mbut[0].getWidth(),app.control.mbut[0].getHeight());
+        //  System.out.printf("\nBuuton %d h=%d ",controlUI.control.mbut[0].getWidth(),controlUI.control.mbut[0].getHeight());
         super.paintComponent(g);
-        eheight = 15; //TODO
-                //app.control.mbut[0].getHeight();
+        eheight = ( Toolkit.getDefaultToolkit().getScreenSize().height - 300 )/mFloor;
+//                15; //TODO
+                //controlUI.control.mbut[0].getHeight();
         ewidth = eheight * 3 / 4;
 
         //TODO
@@ -108,13 +118,13 @@ class ElevatorUI extends JPanel implements ActionListener
         pathx = (this.getWidth() - ewidth) / 2;
 
         //TODO pathx to x
-        int x = 50;
+        int x = 10;
         for(int i=0; i<mElevator; i++) {
             g.setColor(Color.YELLOW);
             g.fillRect(x, moving, ewidth, eheight); //elevetor rectangle
             g.setColor(Color.BLACK);
             g.drawLine(x + ewidth / 2, moving, x + ewidth / 2, moving + eheight); //elevator line
-            x = x + 50;
+            x = x + 70;
         }
 
         //obtain geometric values of components for drawing the elevator area
@@ -128,31 +138,47 @@ class ElevatorUI extends JPanel implements ActionListener
     {
         for (int i = 0; i < mElevatorBtn.length; i++) {
             if (e.getSource() == mElevatorBtn[i]) {
+                ControlPanel.onlineElevator(i);
+                if (mElevatorBtn[i].getBackground() == java.awt.Color.RED)
+                {
+                    mElevatorBtn[i].setBackground(java.awt.Color.GREEN);
+                    mBoolStop[i] = true;
+                }
+                else
+                {
+                    mBoolStop[i] = false;
+                    mElevatorBtn[i].setBackground(java.awt.Color.RED);
+                }
                 System.out.println("onClick = " + mElevatorBtn[i].getLabel());
             }
         }
 
-        if (!stop)
-        { //runing
+//        for(int i=0; i<ControlPanel.mAliveElevator.size() ; i++){
+//            if(ControlPanel.mAliveElevator.get(i) != 0){
+//                //TODO if condition have error
+//            }
+//        }
+
+        if (!stop){ //runing
             int tempref = eheight / 10;
             if (up)
             {
                 moving -= tempref;
                 if (moving % eheight < tempref)
                 {
-                    N = 7 - moving / eheight;
-                    if (N < 0 || N > 7) { N = 0; } // handler resize problem!
+                    N = 5 - moving / eheight;
+                    if (N < 0 || N > 5) { N = 0; } // handler resize problem!
                     //TODO
-//                    if (app.control.bp[N] == false)
-//                    {
-//                        stop = true;
-//                    }
+                    if (mBoolStop[N] == false) //controlUI.control.bp
+                    {
+                        stop = true;
+                    }
                 }
 
                 if (moving < 1)
                 {
                     up = false;
-//                    app.state.setText("Moving down!");
+                    mStateLabel.setText("Moving down!");
                 }
             }
             else
@@ -161,18 +187,18 @@ class ElevatorUI extends JPanel implements ActionListener
                 moving += tempref;
                 if (moving % eheight < tempref)
                 {
-                    N = 7 - moving / eheight;
-                    if (N < 0 || N > 7) { N = 0; } // handler resize problem!
+                    N = 5 - moving / eheight;
+                    if (N < 0 || N > 5) { N = 0; } // handler resize problem!
                     //TODO
-//                    if (app.control.bp[N] == false)
-//                    {
-//                        stop = true;
-//                    }
+                    if (mBoolStop[N] == false) //controlUI.control.bp[N]
+                    {
+                        stop = true;
+                    }
                 }
                 if (moving > eheight * (mFloor-1))
                 {
                     up = true;
-//                    app.state.setText("Moving up!");
+                    mStateLabel.setText("Moving up!");
                 }
             }
             repaint();
@@ -181,9 +207,9 @@ class ElevatorUI extends JPanel implements ActionListener
         {//stop la
             if (stopint == 0)
             { //adjust location;
-                moving = (7 - N) * eheight;
+                moving = (5 - N) * eheight;
                 repaint();
-//                app.state.setText("Stop at " + (N + 1));
+                mStateLabel.setText("Stop at " + (N + 1));
             }
             stopint += 2;
             if (stopint > mFloor)
@@ -191,17 +217,11 @@ class ElevatorUI extends JPanel implements ActionListener
                 stopint = 0;
                 stop = false;
                 //TODO
-//                app.control.bp[N] = true;
-//                app.control.mbut[N].setBackground(Color.GREEN);
-//                app.state.setText("Let's Go!");
+                mBoolStop[N] = true;
+                mElevatorBtn[N].setBackground(Color.GREEN);
+                mStateLabel.setText("Let's Go!");
             }
         }
-
-        //loop if the elevator needs to be stopped for a while
-        //adjust Y coordinate to simulate elevetor movement
-        //change moving direction when hits the top and bottom
-        //repaint the panel
-        //update the state of the elevator
     }
 
 } //the end of Elevator class

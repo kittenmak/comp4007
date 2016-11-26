@@ -6,32 +6,56 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created by michaelleung on 22/11/2016.
  */
 public class KioskUI extends JPanel implements ActionListener{
 
-    public JButton mbut[] = new JButton[8];  // 8 Buttons
-    public boolean bp[] = new boolean[8]; // the state of each button, pressed or not
-
+    public JButton mbut[];
+    public Boolean boolList[];
+    public int mFloor;
+    public int mKioskCount;
 
     public KioskUI(int floor)
     {
-        this.setLayout(new GridLayout(4, floor, 0, 15));
-        mbut = new JButton[8];
-        for (int i = 8; i > 0; i--)
+        mFloor = floor;
+        mKioskCount = mFloor; //* 4;
+
+        mbut = new JButton[mKioskCount];
+//        bp[] = new boolean[8];
+        boolList = new Boolean[mKioskCount];
+        this.setLayout(new GridLayout(floor, 4, 0, 0));
+//        mbut = new JButton[8];
+        for (int i = mKioskCount; i > 0; i--)
         {
             mbut[i - 1] = new JButton(SharedConsts.Kiosk + i);
             mbut[i - 1].setBackground(java.awt.Color.GREEN);
             mbut[i - 1].addActionListener(this);
             this.add(mbut[i - 1]);
-            bp[i - 1] = true;
+            boolList[i - 1] = true;
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        for (int i = 0; i < mbut.length; i++) {
+            if (e.getSource() == mbut[i]) {
+//                if (mbut[i].getBackground() == java.awt.Color.RED)
+//                {
+//                    mElevatorBtn[i].setBackground(java.awt.Color.GREEN);
+//                    mBoolStop[i] = true;
+//                }
+//                else
+//                {
+//                    mBoolStop[i] = false;
+//                    mElevatorBtn[i].setBackground(java.awt.Color.RED);
+//                }
+                System.out.println("onClick = " + mbut[i].getLabel());
+            }
+        }
 //        int who = Integer.valueOf(e.getActionCommand().substring(5)) - 5; //eg. Kiosk1 --> 1
 //        if (mbut[who].getBackground() == java.awt.Color.RED)
 //        {

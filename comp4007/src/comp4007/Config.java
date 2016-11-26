@@ -5,68 +5,132 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class Config {
-    int mElevator = 6;
-    int mFloor = 30;
+    File file = new File(SharedConsts.ConfigFilePath);
+    int mElevator = 1;
+    int mFloor = 1;
+    boolean mEnd = false;
 
-    public Config(){
+    public Config() {
+        createOrModifyFile(false);
         setConfig();
-        createFile();
     }
 
-    public void setConfig(){
+    public void setConfig() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("0) set Elevator ");
-        System.out.println("1) set Floor ");
-        System.out.print("please input the number: ");
-        int action = Integer.parseInt(scanner.nextLine());
 
-        switch(action){
-            case 0:{
-                //TODO
-                break;
-            }
-            case 1:{
-                //TODO
-                break;
-            }
-            default:
-            {
-                System.out.print("Input error,try again \n");
-                break;
-            }
-        }
-    }
+        while (!mEnd) {
+            System.out.println("0) set Elevator ");
+            System.out.println("1) set Floor ");
+            System.out.println("2) read config file");
+            System.out.println("3) QUIT ");
+            System.out.print("please input the number: ");
+            int action = Integer.parseInt(scanner.nextLine());
 
-    public void createFile(){
-        Properties prop = new Properties();
-        OutputStream output = null;
-
-        try {
-            output = new FileOutputStream(SharedConsts.ConfigFilePath);
-
-            // set the properties value
-            prop.setProperty(SharedConsts.Elevator, String.valueOf(mElevator));
-            prop.setProperty(SharedConsts.Floor, String.valueOf(mFloor));
-
-            // save properties to project root folder
-            prop.store(output, null);
-
-        } catch (IOException io) {
-            io.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+            switch (action) {
+                case 0: {
+                    System.out.print("please set the Elevator ( Now is " + mElevator + " ) : ");
+                    mElevator = Integer.parseInt(scanner.nextLine());
+                    createOrModifyFile(true);
+                    break;
+                }
+                case 1: {
+                    System.out.print("please set the Floor ( Now is " + mFloor + " ) : ");
+                    mFloor = Integer.parseInt(scanner.nextLine());
+                    createOrModifyFile(true);
+                    break;
+                }
+                case 2: {
+                    System.out.println(SharedConsts.Elevator + " = " + mElevator + " " + SharedConsts.Floor + " = " + mFloor);
+                    break;
+                }
+                case 3: {
+                    mEnd = true;
+                    break;
+                }
+                default: {
+                    System.out.print("Input error,try again \n");
+                    break;
                 }
             }
-
         }
     }
 
-    public static void main(String args[])
-    {
+    public void createOrModifyFile(boolean editValue) {
+        Properties prop = new Properties();
+        OutputStream output = null;
+//        InputStream input = null;
+
+        if (!file.exists() || editValue) {
+            try {
+                output = new FileOutputStream(SharedConsts.ConfigFilePath);
+
+                // set the properties value
+                prop.setProperty(SharedConsts.Elevator, String.valueOf(mElevator));
+                prop.setProperty(SharedConsts.Floor, String.valueOf(mFloor));
+
+                // save properties to project root folder
+                prop.store(output, null);
+
+            } catch (IOException io) {
+                io.printStackTrace();
+            } finally {
+                if (output != null) {
+                    try {
+                        output.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        } else {
+//            System.out.print("get data");
+            try {
+                prop.load(new FileInputStream(SharedConsts.ConfigFilePath));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mElevator = Integer.valueOf(prop.getProperty(SharedConsts.Elevator));
+            mFloor = Integer.valueOf(prop.getProperty(SharedConsts.Floor));
+//            System.out.println(SharedConsts.Elevator + " = " + mElevator + " " + SharedConsts.Floor + " = " + mFloor);
+        }
+    }
+
+//    public void editFile(String element, int value){
+//        Properties prop = new Properties();
+//        OutputStream output = null;
+//
+//        try {
+//            output = new FileOutputStream(SharedConsts.ConfigFilePath);
+//
+//            // set the properties value
+//            if(element.equals(SharedConsts.Elevator)){
+//                prop.setProperty(SharedConsts.Elevator, String.valueOf(value));
+//                prop.setProperty(SharedConsts.Floor, String.valueOf(mFloor));
+//            }
+//            else if(element.equals(SharedConsts.Floor)){
+//                prop.setProperty(SharedConsts.Elevator, String.valueOf(mElevator));
+//                prop.setProperty(SharedConsts.Floor, String.valueOf(value));
+//            }
+//
+//            // save properties to project root folder
+//            prop.store(output, null);
+//
+//        } catch (IOException io) {
+//            io.printStackTrace();
+//        } finally {
+//            if (output != null) {
+//                try {
+//                    output.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//        }
+//    }
+
+    public static void main(String args[]) {
         Config config = new Config();
     }
 

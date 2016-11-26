@@ -21,6 +21,12 @@ public class AdminUI extends JFrame implements ActionListener{
     private Button mDeleteBtn;
 
     public AdminUI(){
+
+        this.setTitle("AdminUI");
+        this.setSize(400,400);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.WIDTH) / 8, (Toolkit.getDefaultToolkit().getScreenSize().height - this.HEIGHT) / 8);
+
         mAdminPanel = new Panel();
         mCreateBtn = new Button(SharedConsts.Create);
         mModifyBtn = new Button(SharedConsts.Modify);
@@ -37,19 +43,6 @@ public class AdminUI extends JFrame implements ActionListener{
         add(mAdminPanel, BorderLayout.WEST);
     }
 
-    public static void main(String args[])
-    {
-        // set frame properties
-        AdminUI f = new AdminUI();
-        f.setTitle("AdminUI");
-        f.setBounds(200,200,400,300); //(x, y, width, height)
-        f.setVisible(true);
-
-        // set image as the icon
-//		Image icon = Toolkit.getDefaultToolkit().getImage("calcImage.gif");
-//		f.setIconImage(icon);
-    } // end of main
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String arg = e.getActionCommand();
@@ -62,9 +55,7 @@ public class AdminUI extends JFrame implements ActionListener{
             ArrayList<Integer> list = new ArrayList<Integer>();
             list.add(3);
             item.setFloor(list);
-
-            AdminPanel admin = new AdminPanel();
-            admin.createRFID(item);
+            AdminPanel.createRFID(item);
 
             System.out.println("onClick = " + SharedConsts.Create);
         }
@@ -81,8 +72,7 @@ public class AdminUI extends JFrame implements ActionListener{
             list.add(3);
             item.setFloor(list);
 
-            AdminPanel admin = new AdminPanel();
-            admin.deleteRFID(item);
+            AdminPanel.deleteRFID(item);
             System.out.println("onClick = " + SharedConsts.Delete);
         }
     }

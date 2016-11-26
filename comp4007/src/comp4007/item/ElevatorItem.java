@@ -26,8 +26,6 @@ public class ElevatorItem{
 	public void setDestination(ArrayList<Integer> destination) {
 		this.destination = destination;
 	}
-	
-
 	public boolean isElevatorStatus() {
 		return elevatorStatus;
 	}
