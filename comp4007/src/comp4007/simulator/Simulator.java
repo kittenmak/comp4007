@@ -7,6 +7,7 @@ import comp4007.simulator.Elevator;
 import comp4007.item.ElevatorItem;
 import comp4007.ui.SimulatorUI;
 
+import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,31 +20,16 @@ import java.util.Properties;
  */
 public class Simulator {
 
-    private static int mElevator=0;
-    private static int mFloor=0;
+    private static int mElevator = 0;
+    private static int mFloor = 0;
     private static List<Elevator> elevatorArrayList = new ArrayList<Elevator>();
+    private static List<Kiosk> kioskArrayList = new ArrayList<Kiosk>();
 
     public static void main(String args[]) throws IOException, InterruptedException {
         readConfig();
+        startElevator();
+//        startKiosk();
         startUI();
-
-        for(int i = 0; i<mElevator; i++) {
-                //TODO
-                final ElevatorItem item = new ElevatorItem();
-                item.setEID(i);
-                new Thread(new Runnable() {
-                    public void run() {
-                        try {
-                            elevatorArrayList.add(new Elevator(item));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
-        }
-
 //        for(int i = 0; i<mElevator; i++) {
 //            final int finalI = i;
 //            new Thread(new Runnable() {
@@ -60,7 +46,8 @@ public class Simulator {
 //                }
 //            }).start();
 //        }
-//
+
+
 //        for(int i = 0; i<mFloor; i++) {
 //            final int finalI = i;
 //            new Thread(new Runnable() {
@@ -79,8 +66,57 @@ public class Simulator {
 //        }
     } // end of main
 
-    private static void startUI(){
+    private static void startUI() {
         SimulatorUI simulatorUI = new SimulatorUI(mFloor);
+//        SimulatorUI f = new SimulatorUI(30);
+        simulatorUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        simulatorUI.setVisible(true);
+    }
+
+//    private static void startKiosk() {
+//        try {
+//            Kiosk kiosk = new Kiosk();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
+    private static void startElevator() {
+//        for (int i = 0; i < mFloor; i++) {
+//            new Thread(new Runnable() {
+//                public void run() {
+//                    try {
+//                        kioskArrayList.add(new Kiosk());
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        }
+
+
+        for (int i = 0; i < mElevator; i++) {
+            //TODO
+            final ElevatorItem item = new ElevatorItem();
+            item.setEID(i);
+            new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        elevatorArrayList.add(new Elevator(item));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
     }
 
     private static void readConfig() {

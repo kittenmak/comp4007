@@ -93,15 +93,15 @@ public class AdminUI extends JFrame implements ActionListener {
 
         JPanel cPanel = new JPanel();
         JLabel cLabel1 = new JLabel();
-        JTextField cField1 = new JTextField(10);
+        final JTextField cField1 = new JTextField(10);
         JLabel cLabel2 = new JLabel();
-        JTextField cField2 = new JTextField(20);
+        final JTextField cField2 = new JTextField(20);
         JLabel cLabel3 = new JLabel();
-        JTextField cField3 = new JTextField(20);
+        final JTextField cField3 = new JTextField(20);
         JLabel cLabel4 = new JLabel();
-        JTextField cField4 = new JTextField(3);
+        final JTextField cField4 = new JTextField(3);
         JLabel cLabel5 = new JLabel();
-        JTextField cField5 = new JTextField(10);
+        final JTextField cField5 = new JTextField(10);
 
 
 
@@ -175,15 +175,15 @@ public class AdminUI extends JFrame implements ActionListener {
 
         JPanel mPanel = new JPanel();
         JLabel mLabel1 = new JLabel();
-        JTextField mField1 = new JTextField(10);
+        final JTextField mField1 = new JTextField(10);
         JLabel mLabel2 = new JLabel();
-        JTextField mField2 = new JTextField(20);
+        final JTextField mField2 = new JTextField(20);
         JLabel mLabel3 = new JLabel();
-        JTextField mField3 = new JTextField(20);
+        final JTextField mField3 = new JTextField(20);
         JLabel mLabel4 = new JLabel();
-        JTextField mField4 = new JTextField(3);
+        final JTextField mField4 = new JTextField(3);
         JLabel mLabel5 = new JLabel();
-        JTextField mField5 = new JTextField(10);
+        final JTextField mField5 = new JTextField(10);
 
 
 
@@ -265,7 +265,7 @@ public class AdminUI extends JFrame implements ActionListener {
 
         JPanel dPanel = new JPanel();
         JLabel dLabel1 = new JLabel();
-        JTextField dField1 = new JTextField(10);
+        final JTextField dField1 = new JTextField(10);
 
 
 

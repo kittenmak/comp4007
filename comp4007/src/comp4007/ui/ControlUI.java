@@ -22,7 +22,7 @@ public class ControlUI extends JFrame {
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.WIDTH) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.HEIGHT) / 2);
         this.getContentPane().setLayout(new BorderLayout(0, 0));
 
-        kioskUI = new KioskUI(floor);
+        kioskUI = new KioskUI(floor, 0); //0 represent Server side
         this.getContentPane().add(kioskUI, BorderLayout.WEST);
 
         elevatorUI = new ElevatorUI(elevator, floor);
