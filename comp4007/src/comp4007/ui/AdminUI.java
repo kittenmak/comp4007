@@ -1,5 +1,6 @@
 package comp4007.ui;
 
+import comp4007.LogAction;
 import comp4007.SharedConsts;
 import comp4007.item.RFIDItem;
 import comp4007.panel.AdminPanel;
@@ -61,9 +62,6 @@ public class AdminUI extends JFrame implements ActionListener {
             createFrame();
 
 
-
-
-
         } else if (arg == SharedConsts.Modify) {
             System.out.println("onClick = " + SharedConsts.Modify);
             modifyFrame();
@@ -86,7 +84,7 @@ public class AdminUI extends JFrame implements ActionListener {
     public void createFrame() {
         //try create table
         JFrame cf = new JFrame();
-        cf.setSize(400,300);
+        cf.setSize(400, 300);
         cf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         cf.getContentPane().setLayout(new FlowLayout());
         cf.setVisible(true);
@@ -102,7 +100,6 @@ public class AdminUI extends JFrame implements ActionListener {
         final JTextField cField4 = new JTextField(3);
         JLabel cLabel5 = new JLabel();
         final JTextField cField5 = new JTextField(10);
-
 
 
         JButton cSubmit = new JButton();
@@ -161,14 +158,12 @@ public class AdminUI extends JFrame implements ActionListener {
         //try create table
 
 
-
-
     }
 
-    public void modifyFrame(){
+    public void modifyFrame() {
 
         JFrame mf = new JFrame();
-        mf.setSize(400,300);
+        mf.setSize(400, 300);
         mf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         mf.getContentPane().setLayout(new FlowLayout());
         mf.setVisible(true);
@@ -184,7 +179,6 @@ public class AdminUI extends JFrame implements ActionListener {
         final JTextField mField4 = new JTextField(3);
         JLabel mLabel5 = new JLabel();
         final JTextField mField5 = new JTextField(10);
-
 
 
         JButton mSubmit = new JButton();
@@ -240,7 +234,7 @@ public class AdminUI extends JFrame implements ActionListener {
                 String firstName = mField3.getText();
                 String grantedFloor = mField4.getText();
                 String expiryDate = mField5.getText();
-
+                LogAction logModify = new LogAction("Modified ID " + id + "with {" +)
             }
         });
 
@@ -252,13 +246,12 @@ public class AdminUI extends JFrame implements ActionListener {
         });
 
 
-
     }
 
-    public void deleteFrame(){
+    public void deleteFrame() {
 
         JFrame mf = new JFrame();
-        mf.setSize(400,300);
+        mf.setSize(400, 300);
         mf.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         mf.getContentPane().setLayout(new FlowLayout());
         mf.setVisible(true);
@@ -266,7 +259,6 @@ public class AdminUI extends JFrame implements ActionListener {
         JPanel dPanel = new JPanel();
         JLabel dLabel1 = new JLabel();
         final JTextField dField1 = new JTextField(10);
-
 
 
         JButton dDelete = new JButton();
@@ -292,9 +284,6 @@ public class AdminUI extends JFrame implements ActionListener {
                 String id = dField1.getText();
             }
         });
-
-
-
 
 
     }
