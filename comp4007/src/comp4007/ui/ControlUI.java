@@ -13,20 +13,25 @@ public class ControlUI extends JFrame {
 
     private KioskUI kioskUI;
     private ElevatorUI elevatorUI;
+    private int mElevator;
+    private int mFloor;
 
     public ControlUI(int elevator, int floor) {
+        mElevator = elevator;
+        mFloor = floor;
 
         this.setTitle("ControlUI");
-        this.setSize(800, 700);
+        this.setSize(mElevator*100, (mFloor+1)*21);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.WIDTH) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.HEIGHT) / 2);
         this.getContentPane().setLayout(new BorderLayout(0, 0));
 
-        kioskUI = new KioskUI(floor, 0); //0 represent Server side
-        this.getContentPane().add(kioskUI, BorderLayout.WEST);
+//        kioskUI = new KioskUI(floor, 0); //0 represent Server side
+//        this.getContentPane().add(kioskUI, BorderLayout.WEST);
 
         elevatorUI = new ElevatorUI(elevator, floor);
         this.getContentPane().add(elevatorUI, BorderLayout.CENTER);
+        this.setResizable(false);
 //		setLayout(new BorderLayout());
 
 

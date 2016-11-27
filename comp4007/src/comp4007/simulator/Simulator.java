@@ -27,7 +27,7 @@ public class Simulator {
 
     public static void main(String args[]) throws IOException, InterruptedException {
         readConfig();
-        startElevator();
+//        startElevator();
 //        startKiosk();
         startUI();
 //        for(int i = 0; i<mElevator; i++) {

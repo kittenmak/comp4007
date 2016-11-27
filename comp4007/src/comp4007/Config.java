@@ -77,6 +77,7 @@ public class Config {
                 prop.setProperty(SharedConsts.host, "localhost");
                 prop.setProperty(SharedConsts.destination, "");
                 prop.setProperty(SharedConsts.elevatorStatus, "0");
+                prop.setProperty(SharedConsts.direction, "stop");
                 prop.store(output, null);
 
             } catch (IOException e) {

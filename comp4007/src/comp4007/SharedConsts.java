@@ -2,8 +2,8 @@ package comp4007;
 
 public class SharedConsts {
 
-//    public static final String Path = "/Users/michaelleung/comp4007_DB/";
-    public static final String Path = "C:\\comp4007_DB\\";
+    public static final String Path = "/Users/michaelleung/comp4007_DB/";
+//    public static final String Path = "C:\\comp4007_DB\\";
 
     public static final String Key = "F@$631%5D1^&064=";
 
@@ -43,5 +43,5 @@ public class SharedConsts {
     public static final String host = "host";
     public static final String destination = "destination";
     public static final String elevatorStatus = "elevatorStatus";
-
+    public static final String direction = "direction";
 }

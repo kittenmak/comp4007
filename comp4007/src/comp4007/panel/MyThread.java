@@ -2,11 +2,13 @@ package comp4007.panel;
 
 import comp4007.AES;
 import comp4007.SharedConsts;
+import comp4007.item.KioskItem;
 
 import java.io.*;
-import java.net.Socket;;
+import java.net.Socket;
+import java.util.concurrent.Callable;;
 
-public class MyThread extends Thread {
+public class MyThread extends Thread implements Callable{
     final int login = 0;
     final int command = 1;
     int state = login;
@@ -86,6 +88,13 @@ public class MyThread extends Thread {
         String send_msg;
         while (true) {
             String line = aes.decrypt(new String(receive()));
+            String[] data = line.split(",");
+
+            KioskItem item = new KioskItem();
+            item.setKID(Integer.valueOf(data[0]));
+            item.setFloor(Integer.valueOf(data[1]));
+            System.out.print("mythread = " + item.getKID() + item.getFloor());
+
             if (line.equals("QUIT")) {
                 break;
             }
@@ -166,5 +175,10 @@ public class MyThread extends Thread {
             clientSocket.close();
         } catch (IOException ex) {
         }
+    }
+
+    @Override
+    public Object call() throws Exception {
+        return null;
     }
 }

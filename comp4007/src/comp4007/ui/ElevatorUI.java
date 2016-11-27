@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -35,10 +36,14 @@ class ElevatorUI extends JPanel implements ActionListener
     private int eheight; // Elevator height || floor height
     private int pathx;
     private int pathy;
-    private int moving;
-    private boolean stop;
-    private int stopint;
-    private int N;
+//    private int moving;
+//    private boolean stop;
+//    private int stopint;
+//    private int N;
+
+    private int[] movingArray;
+    private int[] couter;
+
     private Timer tm; //the timer to drive the elevator movement
     //other variables to be used ...
 
@@ -83,12 +88,20 @@ class ElevatorUI extends JPanel implements ActionListener
         this.setVisible(true);
 
         up = true;
-        stop = false;
-        stopint = 0;
+//        stop = false;
+//        stopint = 0;
         eheight = ( Toolkit.getDefaultToolkit().getScreenSize().height - 300 )/mFloor;
 //                15; //TODO
 //                controlUI.control.mbut[0].getHeight();
-        moving = (mFloor-1) * eheight;
+//        moving = (mFloor-1) * eheight;
+        couter = new int[mElevator];
+        movingArray = new int[mElevator];
+        for(int i=0; i < mElevator; i++){
+            movingArray[i] = (mFloor-1) * eheight;
+            couter[i] = 0;
+        }
+
+
         //  this.setBounds(controlUI.control.mbut[0].WIDTH,controlUI.control.mbut[0].getLocation().y, controlUI.WIDTH-controlUI.control.mbut[0].WIDTH, eheight*8);
 
         ewidth = eheight * 3 / 4;
@@ -131,10 +144,11 @@ class ElevatorUI extends JPanel implements ActionListener
         //TODO pathx to x
         int x = 10;
         for(int i=0; i<mElevator; i++) {
+//            System.out.println(i);
             g.setColor(Color.YELLOW);
-            g.fillRect(x, moving, ewidth, eheight); //elevetor rectangle
+            g.fillRect(x, movingArray[i], ewidth, eheight); //elevetor rectangle
             g.setColor(Color.BLACK);
-            g.drawLine(x + ewidth / 2, moving, x + ewidth / 2, moving + eheight); //elevator line
+            g.drawLine(x + ewidth / 2, movingArray[i], x + ewidth / 2, movingArray[i] + eheight); //elevator line
             x = x + 70;
         }
 
@@ -164,75 +178,96 @@ class ElevatorUI extends JPanel implements ActionListener
             }
         }
 
-//        for(int i=0; i<ControlPanel.mAliveElevator.size() ; i++){
-//            if(ControlPanel.mAliveElevator.get(i) != 0){
-//                //TODO if condition have error
+        int speed = eheight/10;
+        for(int i=0; i<mElevator; i++) {
+            mItem.get(0).setDirection("up");
+            mItem.get(3).setDirection("up");
+//        if(movingArray[0]<=0){
+//            mItem.get(0).setDirection("down");
+//        }
+            if (mItem.get(i).getDirection().equals("up") && movingArray[i] > 0) { // avoid resolution to negative
+                movingArray[i] = movingArray[i] - speed;
+                couter[i]++;
+                if(couter[i] >= 10){
+                    couter[i] = 0;
+                    mItem.get(i).setCurrentFloor(mItem.get(i).getCurrentFloor() + 1);
+                }
+            } else if (mItem.get(0).getDirection().equals("down") && movingArray[0] < mFloor * 21) {
+                movingArray[i] = movingArray[i] + speed;
+                couter[i]--;
+                if(couter[i] <= -10){
+                    couter[i] = 0;
+                    mItem.get(i).setCurrentFloor(mItem.get(i).getCurrentFloor() - 1);
+                }
+            } else {
+                movingArray[i] = movingArray[i];
+            }
+        }
+        repaint();
+
+//        int temp = 5;
+//        if (!stop){ //runing
+//            int tempref = eheight / 10; //10 step for 1 floor = --> speed
+//            if (up)
+//            {
+//                moving -= tempref; //39 floor * height
+//                if (moving % eheight < tempref) //havn't arrived the floor
+//                {
+//                    N = temp - moving / eheight;
+//                    if (N < 0 || N > temp) { N = 0; } // handler resize problem!
+//                    //TODO
+//                    if (mBoolStop[N] == false) //controlUI.control.bp
+//                    {
+//                        stop = true;
+//                    }
+//                }
+//
+//                if (moving < 1)
+//                {
+//                    up = false;
+//                    mStateLabel.setText("Moving down!");
+//                }
+//            }
+//            else //down
+//            {
+//                moving += tempref;
+//                if (moving % eheight < tempref)
+//                {
+//                    N = temp - moving / eheight;
+//                    if (N < 0 || N > temp) { N = 0; } // handler resize problem!
+//                    //TODO
+//                    if (mBoolStop[N] == false) //controlUI.control.bp[N]
+//                    {
+//                        stop = true;
+//                    }
+//                }
+//                if (moving > eheight * (mFloor-1))
+//                {
+//                    up = true;
+//                    mStateLabel.setText("Moving up!");
+//                }
+//            }
+//            repaint();
+//        }
+//        else
+//        {//stop la
+//            if (stopint == 0)
+//            { //adjust location;
+//                moving = (temp - N) * eheight;
+//                repaint();
+//                mStateLabel.setText("Stop at " + (N + 1));
+//            }
+//            stopint += 2;
+//            if (stopint > mFloor)
+//            {
+//                stopint = 0;
+//                stop = false;
+//                //TODO
+//                mBoolStop[N] = true;
+//                mElevatorBtn[N].setBackground(Color.GREEN);
+//                mStateLabel.setText("Let's Go!");
 //            }
 //        }
-
-        int temp = 5;
-        if (!stop){ //runing
-            int tempref = eheight / 10; //10 step for 1 floor = --> speed
-            if (up)
-            {
-                moving -= tempref; //39 floor * height
-                if (moving % eheight < tempref) //havn't arrived the floor
-                {
-                    N = temp - moving / eheight;
-                    if (N < 0 || N > temp) { N = 0; } // handler resize problem!
-                    //TODO
-                    if (mBoolStop[N] == false) //controlUI.control.bp
-                    {
-                        stop = true;
-                    }
-                }
-
-                if (moving < 1)
-                {
-                    up = false;
-                    mStateLabel.setText("Moving down!");
-                }
-            }
-            else //down
-            {
-                moving += tempref;
-                if (moving % eheight < tempref)
-                {
-                    N = temp - moving / eheight;
-                    if (N < 0 || N > temp) { N = 0; } // handler resize problem!
-                    //TODO
-                    if (mBoolStop[N] == false) //controlUI.control.bp[N]
-                    {
-                        stop = true;
-                    }
-                }
-                if (moving > eheight * (mFloor-1))
-                {
-                    up = true;
-                    mStateLabel.setText("Moving up!");
-                }
-            }
-            repaint();
-        }
-        else
-        {//stop la
-            if (stopint == 0)
-            { //adjust location;
-                moving = (temp - N) * eheight;
-                repaint();
-                mStateLabel.setText("Stop at " + (N + 1));
-            }
-            stopint += 2;
-            if (stopint > mFloor)
-            {
-                stopint = 0;
-                stop = false;
-                //TODO
-                mBoolStop[N] = true;
-                mElevatorBtn[N].setBackground(Color.GREEN);
-                mStateLabel.setText("Let's Go!");
-            }
-        }
     }
 
     private static void readConfig() {
@@ -274,7 +309,31 @@ class ElevatorUI extends JPanel implements ActionListener
                 item.setEID(Integer.valueOf(prop.getProperty(SharedConsts.EID)));
                 item.setModel(prop.getProperty(SharedConsts.Model));
                 item.setCurrentFloor(Integer.valueOf(prop.getProperty(SharedConsts.currentFloor)));
-                //TODO
+                item.setIdleTimer(Double.valueOf(prop.getProperty(SharedConsts.idleTimer)));
+                item.setDoorTimer(Double.valueOf(prop.getProperty(SharedConsts.doorTimer)));
+                item.setETA(Double.valueOf(prop.getProperty(SharedConsts.ETA)));
+                if("0".equals(prop.getProperty(SharedConsts.doorStatus))){
+                    item.setDoorStatus(false);
+                }else{
+                    item.setDoorStatus(true);
+                }
+                item.setPort(Integer.valueOf(prop.getProperty(SharedConsts.port)));
+                item.setHost(prop.getProperty(SharedConsts.host));
+                if(prop.getProperty(SharedConsts.destination).isEmpty()) {
+                    item.setDestination(null);
+                }
+                else{
+                    //TODO
+//                    List<Integer> myList = new ArrayList<Integer>(prop.getProperty(SharedConsts.destination).asList(s.split(",")));
+//                    item.setDestination();
+                }
+                if("0".equals(prop.getProperty(SharedConsts.elevatorStatus))){
+                    item.setElevatorStatus(false);
+                }
+                else{
+                    item.setElevatorStatus(true);
+                }
+                item.setDirection(prop.getProperty(SharedConsts.direction));
                 mItem.add(item);
             }
             // load a properties file

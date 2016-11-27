@@ -92,7 +92,7 @@ public class Kiosk{
 
 
 		msg = "Kiosk " + mItem.getKID() + " connect"; //user + "," + password;
-		encrypt_msg = aes.encrypt(mItem.toString());
+		encrypt_msg = aes.encrypt(String.valueOf(mItem.getKID()) + "," + mItem.getFloor());
 		send(encrypt_msg.getBytes(), encrypt_msg.length());
 
 		msg = new String(receive());

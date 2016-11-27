@@ -77,10 +77,33 @@ public class ControlPanel{
 		Socket clientSocket = null;
 
 
-		while (true) {
+//		while (true) {
+		for( int i=0; i<mElevator; i++){
+			String temp = "e"+i;
 			clientSocket = serverSocket.accept();
-			new MyThread(clientSocket).start();
+			MyThread th = new MyThread(clientSocket);
+			th.start();
+			th.setName(temp);
+
 		}
+		for( int i=0; i<mFloor; i++){
+			String temp = "f"+i;
+			clientSocket = serverSocket.accept();
+			MyThread th = new MyThread(clientSocket);
+			th.start();
+			th.setName(temp);
+		}
+			clientSocket = serverSocket.accept();
+			MyThread th = new MyThread(clientSocket);
+			th.start();
+			th.setName("GUI");
+
+		clientSocket = serverSocket.accept();
+		MyThread th2 = new MyThread(clientSocket);
+		th2.start();
+		th2.setName("sender");
+
+//		}
 	}
 
 	private void startUI(){

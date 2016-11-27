@@ -18,7 +18,7 @@ public class ElevatorItem{
 	String host = "";
 	ArrayList<Integer> destination = new ArrayList<Integer>();
 	boolean elevatorStatus = false;
-
+	String direction = "";
 	
 	public ArrayList<Integer> getDestination() {
 		return destination;
@@ -105,10 +105,13 @@ public class ElevatorItem{
 	public void setDoorStatus(boolean doorStatus) {
 		this.doorStatus = doorStatus;
 	}
-	
 
 
+	public String getDirection() {
+		return direction;
+	}
 
-	
-
+	public void setDirection(String direction) {
+		this.direction = direction;
+	}
 }
