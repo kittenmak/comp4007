@@ -2,9 +2,8 @@ package comp4007;
 
 public class SharedConsts {
 
-    //public static final String Path = "/Users/michaelleung/";
+//    public static final String Path = "/Users/michaelleung/";
     public static final String Path = "C:\\";
-
 
     public static final String Key = "F@$631%5D1^&064=";
 

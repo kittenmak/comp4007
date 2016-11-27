@@ -17,10 +17,16 @@ public class SimulatorUI extends JFrame {
         this.setSize(800, 700);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.WIDTH) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.HEIGHT) / 2);
-        this.getContentPane().setLayout(new GridLayout(1, mFloor));
+//        this.getContentPane().setLayout(new GridLayout(mFloor, 4,0 ,0));
 
-        kioskUI = new KioskUI(mFloor);
-        this.getContentPane().add(kioskUI, BorderLayout.WEST);
+        kioskUI = new KioskUI(mFloor, 1); // 1 represent Client side
+        this.getContentPane().add(kioskUI);
     }
 
+//        public static void main(String args[]) {
+//        // set frame properties
+//            SimulatorUI f = new SimulatorUI(30);
+//        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        f.setVisible(true);
+//    } // end of main
 }
