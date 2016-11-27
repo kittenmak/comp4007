@@ -5,6 +5,8 @@ public class KioskItem {
 	String host;
 	int port;
 	boolean KioskItem;
+	int floor;
+
 	public int getKID() {
 		return KID;
 	}
@@ -29,7 +31,13 @@ public class KioskItem {
 	public void setKioskItem(boolean kioskItem) {
 		KioskItem = kioskItem;
 	}
-	
-	
-	
+
+
+	public int getFloor() {
+		return floor;
+	}
+
+	public void setFloor(int floor) {
+		this.floor = floor;
+	}
 }

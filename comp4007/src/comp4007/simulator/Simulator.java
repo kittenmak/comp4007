@@ -5,6 +5,7 @@ import comp4007.item.KioskItem;
 import comp4007.simulator.Kiosk;
 import comp4007.simulator.Elevator;
 import comp4007.item.ElevatorItem;
+import comp4007.ui.SimulatorUI;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class Simulator {
 
     public static void main(String args[]) throws IOException, InterruptedException {
         readConfig();
+        startUI();
 
         for(int i = 0; i<mElevator; i++) {
                 //TODO
@@ -76,6 +78,10 @@ public class Simulator {
 //            }).start();
 //        }
     } // end of main
+
+    private static void startUI(){
+        SimulatorUI simulatorUI = new SimulatorUI(mFloor);
+    }
 
     private static void readConfig() {
         Properties prop = new Properties();

@@ -164,7 +164,6 @@ public class Elevator{
 		InputStream input = null;
 
 		try {
-
 			input = new FileInputStream(SharedConsts.ConfigFilePath);
 
 			// load a properties file

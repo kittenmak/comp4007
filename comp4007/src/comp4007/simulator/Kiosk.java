@@ -19,14 +19,17 @@ public class Kiosk{
 
 	Scanner scanner = new Scanner(System.in);
 //	static int mInitPort = 20000;
-	KioskItem mItem = new KioskItem();
+	private static KioskItem mItem = new KioskItem();
 
-	public Kiosk(KioskItem item) throws IOException, InterruptedException {
+	public Kiosk() throws IOException, InterruptedException {
 		connectServer();
 		process();
 
-		this.mItem = item;
 		enable();
+	}
+
+	public static void setKioskSignal(KioskItem item){
+		mItem = item;
 	}
 
 	void connectServer() throws IOException {
@@ -76,6 +79,7 @@ public class Kiosk{
 
 
 		msg = "Kiosk " + mItem.getKID() + " connect"; //user + "," + password;
+
 		encrypt_msg = aes.encrypt(msg);
 		send(encrypt_msg.getBytes(), encrypt_msg.length());
 

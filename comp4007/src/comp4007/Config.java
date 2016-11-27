@@ -12,6 +12,7 @@ public class Config {
 
     public Config() {
         createOrModifyFile(false);
+        createElevator();
         setConfig();
     }
 
@@ -51,6 +52,35 @@ public class Config {
                     System.out.print("Input error,try again \n");
                     break;
                 }
+            }
+        }
+    }
+
+    public void createElevator(){
+        Properties prop = new Properties();
+        OutputStream output = null;
+
+        for(int i=1; i<=mElevator; i++){
+            try {
+                output = new FileOutputStream(SharedConsts.Path + "e" + i + ".properties");
+                prop.setProperty(SharedConsts.EID, String.valueOf(i));
+                prop.setProperty(SharedConsts.Model, "comp4007");
+                prop.setProperty(SharedConsts.currentFloor, "0");
+                prop.setProperty(SharedConsts.speed, "1000");
+                prop.setProperty(SharedConsts.maxWeight, "500");
+                prop.setProperty(SharedConsts.currentWeight, "0");
+                prop.setProperty(SharedConsts.idleTimer, "5");
+                prop.setProperty(SharedConsts.doorTimer, "5");
+                prop.setProperty(SharedConsts.ETA, "0");
+                prop.setProperty(SharedConsts.doorStatus, "0");
+                prop.setProperty(SharedConsts.port, String.valueOf(25000+i));
+                prop.setProperty(SharedConsts.host, "localhost");
+                prop.setProperty(SharedConsts.destination, "");
+                prop.setProperty(SharedConsts.elevatorStatus, "0");
+                prop.store(output, null);
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

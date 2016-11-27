@@ -26,4 +26,20 @@ public class SharedConsts {
     public static final String ExpiryDate="ExpiryDate";
     public static final String FirstName="FirstName";
     public static final String SurName="SurName";
+
+    public static final String EID = "EID";
+    public static final String Model ="Model";
+    public static final String currentFloor = "currentFloor";
+    public static final String speed = "speed";
+    public static final String maxWeight = "maxWeight";
+    public static final String currentWeight = "currentWeight";
+    public static final String idleTimer = "idleTimer";
+    public static final String doorTimer = "doorTimer";
+    public static final String ETA = "ETA";
+    public static final String doorStatus = "doorStatus";
+    public static final String port = "port";
+    public static final String host = "host";
+    public static final String destination = "destination";
+    public static final String elevatorStatus = "elevatorStatus";
+
 }

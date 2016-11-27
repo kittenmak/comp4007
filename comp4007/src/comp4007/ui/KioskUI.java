@@ -1,6 +1,7 @@
 package comp4007.ui;
 
 import comp4007.SharedConsts;
+import comp4007.item.KioskItem;
 
 import javax.swing.*;
 import java.awt.*;

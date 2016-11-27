@@ -1,12 +1,19 @@
 package comp4007.ui;
 
 import comp4007.SharedConsts;
+import comp4007.item.ElevatorItem;
 import comp4007.panel.ControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Properties;
+
 /**
  * Created by michaelleung on 22/11/2016.
  */
@@ -18,13 +25,14 @@ class ElevatorUI extends JPanel implements ActionListener
     public boolean mBoolStop[];
     public JLabel mStateLabel; // display the state of the elevator
 
+    private static ArrayList<ElevatorItem> mItem = new ArrayList<ElevatorItem>();
     private int mFloor;
-    private int mElevator;
+    private static int mElevator;
 
     //Declaration of variables
     private boolean up; // the elevator is moving up or down
     private int ewidth;  // Elevator width
-    private int eheight; // Elevator height
+    private int eheight; // Elevator height || floor height
     private int pathx;
     private int pathy;
     private int moving;
@@ -42,6 +50,9 @@ class ElevatorUI extends JPanel implements ActionListener
     //constructor
     public ElevatorUI(int elevator, int floor)
     {
+        readConfig();
+        readConfigs();
+
         mFloor = floor;
         mElevator = elevator;
 
@@ -159,15 +170,16 @@ class ElevatorUI extends JPanel implements ActionListener
 //            }
 //        }
 
+        int temp = 5;
         if (!stop){ //runing
-            int tempref = eheight / 10;
+            int tempref = eheight / 10; //10 step for 1 floor = --> speed
             if (up)
             {
-                moving -= tempref;
-                if (moving % eheight < tempref)
+                moving -= tempref; //39 floor * height
+                if (moving % eheight < tempref) //havn't arrived the floor
                 {
-                    N = 5 - moving / eheight;
-                    if (N < 0 || N > 5) { N = 0; } // handler resize problem!
+                    N = temp - moving / eheight;
+                    if (N < 0 || N > temp) { N = 0; } // handler resize problem!
                     //TODO
                     if (mBoolStop[N] == false) //controlUI.control.bp
                     {
@@ -181,14 +193,13 @@ class ElevatorUI extends JPanel implements ActionListener
                     mStateLabel.setText("Moving down!");
                 }
             }
-            else
+            else //down
             {
-
                 moving += tempref;
                 if (moving % eheight < tempref)
                 {
-                    N = 5 - moving / eheight;
-                    if (N < 0 || N > 5) { N = 0; } // handler resize problem!
+                    N = temp - moving / eheight;
+                    if (N < 0 || N > temp) { N = 0; } // handler resize problem!
                     //TODO
                     if (mBoolStop[N] == false) //controlUI.control.bp[N]
                     {
@@ -207,7 +218,7 @@ class ElevatorUI extends JPanel implements ActionListener
         {//stop la
             if (stopint == 0)
             { //adjust location;
-                moving = (5 - N) * eheight;
+                moving = (temp - N) * eheight;
                 repaint();
                 mStateLabel.setText("Stop at " + (N + 1));
             }
@@ -224,4 +235,60 @@ class ElevatorUI extends JPanel implements ActionListener
         }
     }
 
+    private static void readConfig() {
+        Properties prop = new Properties();
+        InputStream input = null;
+
+        try {
+            input = new FileInputStream(SharedConsts.ConfigFilePath);
+
+            // load a properties file
+            prop.load(input);
+
+            // get the property value and print it out
+            mElevator = Integer.valueOf(prop.getProperty(SharedConsts.Elevator));
+//            mFloor = Integer.valueOf(prop.getProperty(SharedConsts.Floor));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void readConfigs() {
+        Properties prop = new Properties();
+        InputStream input = null;
+
+        try {
+            for(int i =1; i<=mElevator; i++) {
+                input = new FileInputStream(SharedConsts.Path + "e" + i + ".properties");
+                prop.load(input);
+                ElevatorItem item = new ElevatorItem();
+                item.setEID(Integer.valueOf(prop.getProperty(SharedConsts.EID)));
+                item.setModel(prop.getProperty(SharedConsts.Model));
+                item.setCurrentFloor(Integer.valueOf(prop.getProperty(SharedConsts.currentFloor)));
+                //TODO
+                mItem.add(item);
+            }
+            // load a properties file
+            prop.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 } //the end of Elevator class
