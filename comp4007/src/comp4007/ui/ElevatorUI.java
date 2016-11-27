@@ -192,7 +192,7 @@ class ElevatorUI extends JPanel implements ActionListener
                     couter[i] = 0;
                     mItem.get(i).setCurrentFloor(mItem.get(i).getCurrentFloor() + 1);
                 }
-            } else if (mItem.get(0).getDirection().equals("down") && movingArray[0] < mFloor * 21) {
+            } else if (mItem.get(i).getDirection().equals("down") && movingArray[0] < mFloor * 27) { //win27, mac21
                 movingArray[i] = movingArray[i] + speed;
                 couter[i]--;
                 if(couter[i] <= -10){

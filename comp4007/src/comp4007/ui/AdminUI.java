@@ -234,7 +234,7 @@ public class AdminUI extends JFrame implements ActionListener {
                 String firstName = mField3.getText();
                 String grantedFloor = mField4.getText();
                 String expiryDate = mField5.getText();
-                LogAction logModify = new LogAction("Modified ID " + id + "with {" +)
+                LogAction logModify = new LogAction("Modified ID " + id + "with {" );
             }
         });
 

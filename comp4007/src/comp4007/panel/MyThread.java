@@ -12,6 +12,8 @@ public class MyThread extends Thread implements Callable{
     final int login = 0;
     final int command = 1;
     int state = login;
+    static int info;
+    static int info2;
 
 //    String user;
 //    String password;
@@ -95,6 +97,12 @@ public class MyThread extends Thread implements Callable{
             item.setFloor(Integer.valueOf(data[1]));
             System.out.print("mythread = " + item.getKID() + item.getFloor());
 
+
+            info = item.getKID();
+            info2 = item.getFloor();
+
+            info = item.getKID();
+            info2 = item.getFloor();
             if (line.equals("QUIT")) {
                 break;
             }

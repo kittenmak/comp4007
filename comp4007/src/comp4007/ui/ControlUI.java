@@ -21,7 +21,7 @@ public class ControlUI extends JFrame {
         mFloor = floor;
 
         this.setTitle("ControlUI");
-        this.setSize(mElevator*100, (mFloor+1)*21);
+        this.setSize(mElevator*100, (mFloor+1)*27); //win 27, mac 21
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - this.WIDTH) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - this.HEIGHT) / 2);
         this.getContentPane().setLayout(new BorderLayout(0, 0));
