@@ -13,6 +13,8 @@ public class SharedConsts {
 
     public static final String ConfigFileName = "config.properties";
     public static final String ConfigFilePath = Path + ConfigFileName;
+    public static final String LogFileName = "Log.log";
+    public static final String LogFilePath = Path + LogFileName;
     public static final String RFIDFileName = "RFID.properties";
     public static final String RFIDFilePath = Path + RFIDFileName;
 
