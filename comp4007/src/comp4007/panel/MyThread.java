@@ -23,6 +23,7 @@ public class MyThread extends Thread implements Callable{
     Socket clientSocket = null;
     DataInputStream in;
     DataOutputStream out;
+    KioskItem item = new KioskItem();
 
     AES aes = new AES(SharedConsts.Key);
 
@@ -77,7 +78,8 @@ public class MyThread extends Thread implements Callable{
         size = in.readInt();
 
         // receive the message content
-        data = new byte[size];
+        data = new byte[32]; //changed size => 32
+        System.out.println("data length: "+data.length);
         do {
             len = in.read(data, data.length - size, size);
             size -= len;
@@ -86,13 +88,15 @@ public class MyThread extends Thread implements Callable{
         return data;
     }
 
+
     private void process() throws IOException {
         String send_msg;
         while (true) {
             String line = aes.decrypt(new String(receive()));
             String[] data = line.split(",");
 
-            KioskItem item = new KioskItem();
+
+            //KioskItem item = new KioskItem();
             item.setKID(Integer.valueOf(data[0]));
             item.setFloor(Integer.valueOf(data[1]));
             System.out.print("mythread = " + item.getKID() + item.getFloor());
@@ -101,8 +105,8 @@ public class MyThread extends Thread implements Callable{
             info = item.getKID();
             info2 = item.getFloor();
 
-            info = item.getKID();
-            info2 = item.getFloor();
+            data = null;
+
             if (line.equals("QUIT")) {
                 break;
             }

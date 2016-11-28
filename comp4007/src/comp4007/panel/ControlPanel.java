@@ -84,6 +84,7 @@ public class ControlPanel {
             clientSocket = serverSocket.accept();
             MyThread th = new MyThread(clientSocket);
             th.start();
+
             tmp++;
             th.setName("sender"+tmp);
 
@@ -92,10 +93,12 @@ public class ControlPanel {
             System.out.println(th.getName());
             System.out.println("Alive num: " +Thread.activeCount());
 
-            System.out.println("try to get: " + th.info);
-            System.out.println("try to get2: " + th.info2);
-            System.out.println("try to get: " + th.info);
-            System.out.println("try to get2: " + th.info2);
+
+
+
+            System.out.println("try to get: " + MyThread.info);
+            System.out.println("try to get2: " + MyThread.info2);
+
 
 
         }
