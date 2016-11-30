@@ -91,17 +91,38 @@ public class Config {
         OutputStream output = null;
 //        InputStream input = null;
 
+
+
+
         if (!file.exists() || editValue) {
+//            System.out.println("file not exist");
             try {
-                output = new FileOutputStream(SharedConsts.ConfigFilePath);
+                String savePath = SharedConsts.Path;//+SharedConsts.FolderName;
+                //String savePath = "/Users/LIMAN/Desktop/comp4007";
+                File saveLocation = new File(savePath);
+                if(!saveLocation.exists()){
+//                    System.out.print("create folder");
+                    saveLocation.mkdirs();
 
-                // set the properties value
-                prop.setProperty(SharedConsts.Elevator, String.valueOf(mElevator));
-                prop.setProperty(SharedConsts.Floor, String.valueOf(mFloor));
+                    output = new FileOutputStream(SharedConsts.ConfigFilePath);
 
-                // save properties to project root folder
-                prop.store(output, null);
+                    // set the properties value
+                    prop.setProperty(SharedConsts.Elevator, String.valueOf(mElevator));
+                    prop.setProperty(SharedConsts.Floor, String.valueOf(mFloor));
 
+                    // save properties to project root folder
+                    prop.store(output, null);
+                }
+                else{
+                    output = new FileOutputStream(SharedConsts.ConfigFilePath);
+
+                    // set the properties value
+                    prop.setProperty(SharedConsts.Elevator, String.valueOf(mElevator));
+                    prop.setProperty(SharedConsts.Floor, String.valueOf(mFloor));
+
+                    // save properties to project root folder
+                    prop.store(output, null);
+                }
             } catch (IOException io) {
                 io.printStackTrace();
             } finally {
@@ -115,6 +136,7 @@ public class Config {
 
             }
         } else {
+//            System.out.print("file exist");
 //            System.out.print("get data");
             try {
                 prop.load(new FileInputStream(SharedConsts.ConfigFilePath));
